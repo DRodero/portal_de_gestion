@@ -21,7 +21,10 @@
             <td>{{ $proyecto->titulo}}</td>
             <td>{{ $proyecto->descripcion}}</td>
             <td class="small">{{ $proyecto->etiquetas}}</td>
-            <td><a href="/proyectos/{{ $proyecto->id }}/edit" class="btn btn-primary btn-sm">Editar</a> </td>
+            <td>
+                <a href="/proyectos/{{ $proyecto->id }}" class="btn btn-info btn-sm">Mostrar</a>
+                <a href="/proyectos/{{ $proyecto->id }}/edit" class="btn btn-primary btn-sm">Editar</a>
+            </td>
         </tr>
         @endforeach
     </tbody>

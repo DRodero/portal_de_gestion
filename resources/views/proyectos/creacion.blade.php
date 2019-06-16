@@ -11,17 +11,17 @@
 
         <div class="form-group">
             <label for="titulo">Título:</label>
-            <input type="text" class="form-control" name="titulo">
+        <input type="text" class="form-control" name="titulo" required value="{{ old('titulo') }}">
         </div>
 
         <div class="form-group">
             <label for="descripcion">Descripción:</label>
-            <textarea name="descripcion" class="form-control"></textarea>
+            <textarea name="descripcion" class="form-control">{{ old('descripcion') }}</textarea>
         </div>
 
         <div class="form-group">
             <label for="descripcion">Etiquetas:</label>
-            <input type="text" class="form-control" name="etiquetas">
+            <input type="text" class="form-control" name="etiquetas" value="{{ old('etiquetas') }}">
         </div>
 
         <div class="form-group">
@@ -29,6 +29,19 @@
         </div>
 
     </form>
+
+    @if ($errors->any())
+        <div class="card bg-danger text-white">
+            <div class="card-body">
+                @foreach ($errors->all() as $error)
+                    <ul>
+                        <li>{{ $error }}</li>
+                    </ul>
+                @endforeach
+            </div>
+        </div>
+    @endif
+
 </div>
 
 @endsection

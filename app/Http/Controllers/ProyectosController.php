@@ -37,13 +37,15 @@ class ProyectosController extends Controller
      */
     public function store(Request $request)
     {
-        $proyecto = new Proyecto();
+        request()->validate([
+            'titulo' => ['required', 'min:3', 'max:10'],
+            'descripcion' => ['required', 'min:3', 'max:255'],
+            'etiquetas' => 'required'
+        ]);
 
-        $proyecto->titulo = request('titulo');
-        $proyecto->descripcion = request('descripcion');
-        $proyecto->etiquetas = request('etiquetas');
-
-        $proyecto->save();
+        Proyecto::create(
+            request(['titulo', 'descripcion', 'etiquetas'])
+        );
 
         return redirect('proyectos');
     }
@@ -56,7 +58,7 @@ class ProyectosController extends Controller
      */
     public function show(Proyecto $proyecto)
     {
-        //
+        return view("proyectos.mostrar", compact('proyecto'));
     }
 
     /**
