@@ -10,6 +10,8 @@
             <th>ID</th>
             <th>Titulo</th>
             <th>Descripcion</th>
+            <th>Etiquetas</th>
+            <th>Opciones</th>
         </tr>
     </thead>
     <tbody>
@@ -19,6 +21,7 @@
             <td>{{ $proyecto->titulo}}</td>
             <td>{{ $proyecto->descripcion}}</td>
             <td class="small">{{ $proyecto->etiquetas}}</td>
+            <td><a href="/proyectos/{{ $proyecto->id }}/edit" class="btn btn-primary btn-sm">Editar</a> </td>
         </tr>
         @endforeach
     </tbody>

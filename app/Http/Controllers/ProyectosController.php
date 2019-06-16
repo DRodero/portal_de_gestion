@@ -67,7 +67,7 @@ class ProyectosController extends Controller
      */
     public function edit(Proyecto $proyecto)
     {
-        //
+        return view("proyectos.edicion", compact('proyecto'));
     }
 
     /**
@@ -79,7 +79,13 @@ class ProyectosController extends Controller
      */
     public function update(Request $request, Proyecto $proyecto)
     {
-        //
+        $proyecto->titulo = request('titulo');
+        $proyecto->descripcion = request('descripcion');
+        $proyecto->etiquetas = request('etiquetas');
+
+        $proyecto->save();
+
+        return redirect('proyectos');
     }
 
     /**
@@ -90,6 +96,8 @@ class ProyectosController extends Controller
      */
     public function destroy(Proyecto $proyecto)
     {
-        //
+        $proyecto->delete();
+
+        return redirect('proyectos');
     }
 }
