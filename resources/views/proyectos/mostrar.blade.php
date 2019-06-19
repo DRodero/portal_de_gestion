@@ -19,6 +19,22 @@
         <div class="card-header">Etiquetas</div>
         <div class="card-body">{{ $proyecto->etiquetas }}</div>
     </div>
+
+
+    <div class="card mt-2">
+        <div class="card-header">Incidencias</div>
+        <div class="card-body">
+            @if ($proyecto->incidencias->count())
+                @foreach ($proyecto->incidencias as $incidencia)
+                    <li>{{ $incidencia->titulo }}</li>
+                @endforeach
+            @else
+                Este proyecto no tiene incidencias
+            @endif
+        </div>
+    </div>
+
+
 </div>
 
 @endsection
