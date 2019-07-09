@@ -13,7 +13,7 @@
 
 Route::get('/', function() {
     return view('portada');
-});
+})->middleware('auth');
 
 /*
     -- Acciones
@@ -42,3 +42,9 @@ Route::get('proyectos/{proyecto}', 'ProyectosController@show');*/
 
 Route::resource('proyectos', 'ProyectosController');
 
+Route::resource('incidencias', 'IncidenciasController');
+
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

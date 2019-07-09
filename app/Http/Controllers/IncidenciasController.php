@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Proyecto;
+use App\Incidencia;
 use Illuminate\Http\Request;
 
-class ProyectosController extends Controller
+class IncidenciasController extends Controller
 {
     public function __construct()
     {
@@ -19,9 +19,9 @@ class ProyectosController extends Controller
      */
     public function index()
     {
-        $proyectos = Proyecto::all();
+        $incidencias = Incidencia::all();
 
-        return view("proyectos.listado", compact('proyectos'));
+        return view("incidencias.listado", compact('incidencias'));
     }
 
     /**
@@ -31,7 +31,7 @@ class ProyectosController extends Controller
      */
     public function create()
     {
-        return view("proyectos.creacion");
+        return view("incidencias.creacion");
     }
 
     /**
@@ -43,68 +43,68 @@ class ProyectosController extends Controller
     public function store(Request $request)
     {
         request()->validate([
-            'titulo' => ['required', 'min:3', 'max:10'],
+            'titulo' => ['required', 'min:3'],
             'descripcion' => ['required', 'min:3', 'max:255'],
-            'etiquetas' => 'required'
         ]);
 
-        Proyecto::create(
-            request(['titulo', 'descripcion', 'etiquetas'])
+        Incidencia::create(
+            request(['proyecto_id', 'titulo', 'descripcion', 'cerrada'])
         );
 
-        return redirect('proyectos');
+        return redirect('incidencias');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Proyecto  $proyecto
+     * @param  \App\Incidencia  $incidencia
      * @return \Illuminate\Http\Response
      */
-    public function show(Proyecto $proyecto)
+    public function show(Incidencia $incidencia)
     {
-        return view("proyectos.mostrar", compact('proyecto'));
+        return view("incidencias.mostrar", compact('incidencia'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Proyecto  $proyecto
+     * @param  \App\Incidencia  $incidencia
      * @return \Illuminate\Http\Response
      */
-    public function edit(Proyecto $proyecto)
+    public function edit(Incidencia $incidencia)
     {
-        return view("proyectos.edicion", compact('proyecto'));
+        return view("incidencias.edicion", compact('incidencia'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Proyecto  $proyecto
+     * @param  \App\Incidencia  $incidencia
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Proyecto $proyecto)
+    public function update(Request $request, Incidencia $incidencia)
     {
-        $proyecto->titulo = request('titulo');
-        $proyecto->descripcion = request('descripcion');
-        $proyecto->etiquetas = request('etiquetas');
+        $incidencia->proyecto_id = request('proyecto_id');
+        $incidencia->titulo = request('titulo');
+        $incidencia->descripcion = request('descripcion');
+        $incidencia->cerrada = request('cerrada') ?? "0";
 
-        $proyecto->save();
+        $incidencia->save();
 
-        return redirect('proyectos');
+        return redirect('incidencias');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Proyecto  $proyecto
+     * @param  \App\Incidencia  $incidencia
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Proyecto $proyecto)
+    public function destroy(Incidencia $incidencia)
     {
-        $proyecto->delete();
+        $incidencia->delete();
 
-        return redirect('proyectos');
+        return redirect('incidencias');
     }
 }

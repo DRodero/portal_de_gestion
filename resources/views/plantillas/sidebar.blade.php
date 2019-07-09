@@ -39,5 +39,45 @@
         </a>
     </li>
 
+    <!-- Divider -->
+    <hr class="sidebar-divider ">
+
+     <!-- Heading -->
+    <div class="sidebar-heading">
+        Incidencias
+    </div>
+
+    <li class="nav-item">
+        <a class="nav-link" href="/incidencias">
+            <i class="fas fa-list"></i>
+            <span>Listado</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="/incidencias/create">
+            <i class="fas fa-plus-circle"></i>
+            <span>Creacion</span>
+        </a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider ">
+
+     <!-- Heading -->
+    <div class="sidebar-heading">
+        Administración
+    </div>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('register') }}">
+            <i class="fas fa-list"></i>
+            <span>Registro de usuarios</span>
+        </a>
+    </li>
+
+
   </ul>
   <!-- End of Sidebar -->
+
+
