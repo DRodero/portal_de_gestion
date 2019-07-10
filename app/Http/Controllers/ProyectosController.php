@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Proyecto;
 use Illuminate\Http\Request;
+use Mail;
+use App\Mail\ProyectoCreado;
 
 class ProyectosController extends Controller
 {
@@ -48,8 +50,12 @@ class ProyectosController extends Controller
             'etiquetas' => 'required'
         ]);
 
-        Proyecto::create(
+        $proyecto = Proyecto::create(
             request(['titulo', 'descripcion', 'etiquetas'])
+        );
+
+        Mail::to('diego@rodero.es')->send(
+            new ProyectoCreado($proyecto)
         );
 
         return redirect('proyectos');

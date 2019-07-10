@@ -30,18 +30,6 @@
 
     </form>
 
-    @if ($errors->any())
-        <div class="card bg-danger text-white">
-            <div class="card-body">
-                @foreach ($errors->all() as $error)
-                    <ul>
-                        <li>{{ $error }}</li>
-                    </ul>
-                @endforeach
-            </div>
-        </div>
-    @endif
-
 </div>
 
 @endsection
