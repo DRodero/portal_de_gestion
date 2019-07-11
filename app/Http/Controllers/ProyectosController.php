@@ -6,6 +6,10 @@ use App\Proyecto;
 use Illuminate\Http\Request;
 use Mail;
 use App\Mail\ProyectoCreado;
+use PDF;
+use Codedge\Fpdf\Fpdf\Fpdf;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ProyectosExport;
 
 class ProyectosController extends Controller
 {
@@ -67,7 +71,7 @@ class ProyectosController extends Controller
      * @param  \App\Proyecto  $proyecto
      * @return \Illuminate\Http\Response
      */
-    public function show(Proyecto $proyecto)
+    public function show(Proyecto $proyecto, Request $request)
     {
         return view("proyectos.mostrar", compact('proyecto'));
     }
@@ -98,7 +102,7 @@ class ProyectosController extends Controller
 
         $proyecto->save();
 
-        return redirect('proyectos');
+        return redirect('proyectos')->withExito('El proyecto se ha actualizado correctamente');
     }
 
     /**
@@ -112,5 +116,81 @@ class ProyectosController extends Controller
         $proyecto->delete();
 
         return redirect('proyectos');
+    }
+
+    public function pdf_html($id) {
+        $proyecto = Proyecto::find($id);
+
+        //return view('proyectos.pdf', compact("proyecto"));
+
+        $pdf = PDF::loadView('proyectos.pdf', compact("proyecto"))->setPaper('a4', 'portrait');
+        return $pdf->download('proyecto.pdf');
+    }
+
+    public function pdf() {
+        $proyectos = Proyecto::all();
+
+        $fpdf = new Fpdf();
+        $fpdf->SetFont('Arial', 'B', 11);
+        $fpdf->SetTextColor(0,0,0);
+
+        $fila = 0;
+        $col = 0;
+        $x = 15;
+        $y = 10;
+        $separacion = 10;
+        $inicio_texto = 14;
+
+        $i = 0;
+
+        $ancho = 85;
+        $alto = 55;
+
+        $fpdf->AddPage();
+
+        foreach ($proyectos as $proyecto) {
+
+            $ox = ($col == 0) ? 0 : $ancho + $separacion + 0;
+            $oy = ($fila * ($alto + 0)) ;
+
+            $fpdf->Image("http://apisa.com.es/dashboard/img/tarjeta_niños_back.png", $x + $ox, $y + $oy, $ancho, $alto);
+
+            $fpdf->SetXY($x + $ox, $y + $oy + $inicio_texto);
+            $fpdf->SetFont('Arial', 'B', 11);
+            $fpdf->MultiCell($ancho, 20, utf8_decode($proyecto->titulo), 0, 'C');
+
+            $fpdf->SetXY($x + $ox, $y + $oy + $inicio_texto + 6);
+            $fpdf->SetFont('Arial', '', 11);
+            $fpdf->MultiCell($ancho, 20, utf8_decode($proyecto->descripcion), 0, 'C');
+
+            if($col == 0) {
+                $col = 1;
+            }
+            else {
+                $col = 0;
+                $fila = $fila + 1;
+            }
+
+            if ($fila >= 5) {
+                $fpdf->AddPage();
+                $fila = 0;
+                $col = 0;
+            }
+        }
+
+        $fpdf->Output();
+    }
+
+    public function excel2() {
+        $proyectos = Proyecto::all();
+
+        $excel = Exporter::make('Excel');
+        $excel->load($proyectos);
+
+        return $excel->stream("proyectos.xlsx");
+    }
+
+    public function excel() {
+        return Excel::download(new ProyectosExport, 'proyectos.xlsx');
     }
 }

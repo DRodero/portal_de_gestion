@@ -40,11 +40,24 @@ Route::get('proyectos/create', 'ProyectosController@create');
 Route::get('proyectos/{proyecto}/edit', 'ProyectosController@edit');
 Route::get('proyectos/{proyecto}', 'ProyectosController@show');*/
 
+
+Route::get('proyectos/pdf', 'ProyectosController@pdf');
+
+Route::get('proyectos/excel', 'ProyectosController@excel');
+
 Route::resource('proyectos', 'ProyectosController');
 
 Route::resource('incidencias', 'IncidenciasController');
+
+Route::get('proyectos/{id}/pdf_html', 'ProyectosController@pdf_html');
 
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('subir_ficheros', 'HomeController@subir_ficheros');
+
+Route::post('subir_ficheros', 'HomeController@subida');
+
+

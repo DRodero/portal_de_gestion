@@ -37,6 +37,12 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
+            @if (session('exito'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('exito') }}
+                </div>
+            @endif
+
           <!-- Page Heading -->
             <h1 class="h3 mb-4 text-gray-800">@yield('titulo')</h1>
 
